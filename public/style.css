@@ -1,0 +1,507 @@
+/* =========================================================
+   Konser Ticketing — Kelompok 3
+   Dark theme · multi-sesi · seat map · modal · toast
+   ========================================================= */
+
+:root{
+  --bg:#0b1220;
+  --panel:#0f172a;
+  --panel-2:#111c34;
+  --line:#1e2a44;
+  --text:#e5e9f2;
+  --muted:#94a3b8;
+  --primary:#6366f1;
+  --primary-2:#818cf8;
+  --green:#34d399;
+  --amber:#fbbf24;
+  --blue:#60a5fa;
+  --gray:#475569;
+  --red:#f87171;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#0b1220 0%,#0b1220 100%);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-size:15px;
+  line-height:1.45;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Header ---------- */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px 24px;
+  border-bottom:1px solid var(--line);
+  background:rgba(15,23,42,.75);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{font-size:26px}
+h1{font-size:18px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+h2{font-size:15px;margin:0 0 12px;letter-spacing:.02em}
+h3{margin:0 0 12px;font-size:17px}
+.session{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+/* ---------- Layout ---------- */
+main{
+  max-width:960px;
+  margin:0 auto;
+  padding:24px 16px 80px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:16px;
+}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+.row.between h2{margin:0}
+
+/* ---------- Text utilities ---------- */
+.muted{color:var(--muted);font-size:13px}
+.small{font-size:12px}
+code{
+  background:var(--panel-2);
+  padding:1px 6px;
+  border-radius:4px;
+  font-size:.9em;
+  border:1px solid var(--line);
+}
+.msg{margin:8px 0 0;font-size:13px;color:var(--amber);min-height:1em}
+
+/* ---------- Buttons ---------- */
+button{
+  padding:10px 16px;
+  border:0;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  font-family:inherit;
+  transition:background .15s, transform .05s;
+}
+button:hover:not(:disabled){background:var(--primary-2)}
+button:active:not(:disabled){transform:translateY(1px)}
+button:disabled{background:#334155;cursor:not-allowed;color:#94a3b8}
+button.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+button.ghost:hover:not(:disabled){background:var(--panel-2)}
+button.small{padding:6px 10px;font-size:12px;border-radius:8px}
+
+/* ---------- Pills ---------- */
+.pill{
+  display:inline-block;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.pill.ok{border-color:#14532d;color:var(--green)}
+.pill.warn{border-color:#78350f;color:var(--amber)}
+.pill.bad{border-color:#7f1d1d;color:var(--red)}
+
+/* ---------- Progress bar ---------- */
+.progress{
+  height:8px;
+  background:var(--panel-2);
+  border-radius:999px;
+  overflow:hidden;
+  margin:12px 0;
+  border:1px solid var(--line);
+}
+.progress > div{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--primary),var(--primary-2));
+  transition:width .4s ease;
+}
+
+/* =========================================================
+   SESSION MANAGER
+   ========================================================= */
+.session-list{display:flex;flex-direction:column;gap:8px}
+.session-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel-2);
+  transition:border-color .15s, box-shadow .15s, background .15s;
+}
+.session-item.active{
+  border-color:var(--primary);
+  background:rgba(99,102,241,.12);
+  box-shadow:0 0 0 1px rgba(99,102,241,.3);
+}
+.session-item > div:first-child{min-width:0;flex:1}
+.session-item strong{font-size:14px}
+.session-item .muted{font-family:ui-monospace,Menlo,monospace;font-size:11px}
+.session-item .pill{font-size:11px;padding:3px 8px}
+
+/* Form sesi baru */
+#newSessionForm input{
+  font-family:inherit;
+  font-size:14px;
+}
+#newSessionForm input:focus{outline:none;border-color:var(--primary)}
+
+/* =========================================================
+   SEAT MAP
+   ========================================================= */
+.legend{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+  font-size:13px;
+  color:var(--muted);
+}
+.legend .dot{
+  display:inline-block;
+  width:12px;height:12px;
+  border-radius:3px;
+  margin-right:6px;
+  vertical-align:middle;
+  border:1px solid transparent;
+}
+.dot.available{background:var(--green);border-color:#065f46}
+.dot.held{background:var(--amber);border-color:#92400e}
+.dot.mine{background:var(--blue);border-color:#1d4ed8}
+.dot.sold{background:var(--gray);border-color:#111827}
+
+.stage{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.4em;
+  border-top:2px solid var(--line);
+  padding:8px 0 18px;
+  margin-bottom:12px;
+  font-weight:600;
+}
+
+.seatmap{display:flex;flex-direction:column;gap:8px}
+.seatrow{display:flex;align-items:center;gap:6px}
+.rowlabel{
+  width:52px;
+  font-size:11px;
+  color:var(--muted);
+  text-align:right;
+  padding-right:8px;
+  line-height:1.3;
+  flex-shrink:0;
+}
+.rowlabel > div:first-child{font-size:13px;font-weight:700;color:var(--text)}
+.seatrow .seats{display:flex;gap:6px;flex-wrap:wrap}
+
+.seat{
+  width:36px;
+  height:36px;
+  padding:0;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--panel-2);
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .15s, border-color .15s, transform .05s;
+  font-family:inherit;
+  position:relative;
+}
+.seat:active:not(:disabled){transform:scale(.94)}
+.seat.available{background:#064e3b;border-color:#065f46;color:#6ee7b7}
+.seat.available:hover{background:#065f46}
+.seat.held{background:#78350f;border-color:#92400e;color:#fcd34d;cursor:not-allowed}
+.seat.mine{background:#1e3a8a;border-color:#1d4ed8;color:#bfdbfe}
+.seat.mine:hover{background:#1d4ed8}
+.seat.sold{background:#1f2937;border-color:#111827;color:#6b7280;cursor:not-allowed}
+
+/* Badge label pemegang hold (huruf pertama nama) */
+.seat.held[data-holder]::after{
+  content:attr(data-holder);
+  position:absolute;
+  top:-4px;right:-4px;
+  width:16px;height:16px;
+  border-radius:999px;
+  background:var(--amber);
+  color:#111;
+  font-size:9px;
+  font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #0f172a;
+  pointer-events:none;
+}
+
+/* =========================================================
+   HOLD BAR
+   ========================================================= */
+.holdbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 16px;
+  margin-top:16px;
+}
+.hold-timer{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:18px;
+  font-weight:700;
+  color:var(--amber);
+  letter-spacing:.05em;
+}
+.hold-timer.urgent{
+  color:var(--red);
+  animation:pulse 1s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.55}
+}
+
+/* =========================================================
+   TICKETS
+   ========================================================= */
+.tickets{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:12px;
+}
+.ticket{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  cursor:pointer;
+  transition:border-color .15s, transform .1s;
+  position:relative;
+}
+.ticket:hover{border-color:var(--primary);transform:translateY(-1px)}
+.ticket .code{
+  font-family:ui-monospace,Menlo,monospace;
+  font-weight:700;
+  font-size:13px;
+  color:var(--primary-2);
+  padding-right:60px;
+}
+.ticket .seat{font-size:18px;font-weight:700;margin-top:4px}
+.ticket .meta{color:var(--muted);font-size:12px;margin-top:4px}
+.ticket.refunded{opacity:.55}
+.ticket.refunded:hover{transform:none}
+
+.badge{
+  position:absolute;
+  top:10px;right:10px;
+  font-size:10px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:#14532d;
+  color:#86efac;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+.ticket.refunded .badge{background:#7f1d1d;color:#fca5a5}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+.modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(4px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  z-index:50;
+  animation:fade .15s ease;
+}
+.modal[hidden]{display:none}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.modal-box{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+  width:100%;
+  max-width:440px;
+  position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  max-height:90vh;
+  overflow-y:auto;
+}
+.modal-box .close{
+  position:absolute;
+  top:8px;right:10px;
+  background:transparent;
+  border:0;
+  color:var(--muted);
+  font-size:22px;
+  padding:4px 8px;
+  cursor:pointer;
+  line-height:1;
+}
+.modal-box .close:hover{color:var(--text)}
+
+.summary{
+  margin:12px 0;
+  padding:12px;
+  background:var(--panel-2);
+  border-radius:10px;
+  font-size:14px;
+  border:1px solid var(--line);
+}
+.summary .line{
+  display:flex;
+  justify-content:space-between;
+  padding:3px 0;
+}
+.summary .total{
+  border-top:1px dashed var(--line);
+  margin-top:8px;
+  padding-top:8px;
+  font-weight:700;
+  font-size:15px;
+}
+
+.methods{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:8px 0 12px;
+}
+.methods label{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  cursor:pointer;
+  font-size:14px;
+  transition:border-color .15s, background .15s;
+}
+.methods label:hover{background:var(--panel-2)}
+.methods label:has(input:checked){
+  border-color:var(--primary);
+  background:rgba(99,102,241,.12);
+}
+.methods label.danger{color:#fca5a5}
+.methods input[type="radio"]{accent-color:var(--primary);margin:0}
+
+/* E-Tiket modal */
+.ticket-box{max-width:380px;text-align:center}
+.ticket-box .qr{
+  width:200px;
+  height:200px;
+  margin:0 auto 12px;
+  background:#fff;
+  border-radius:10px;
+  padding:8px;
+  display:block;
+}
+.ticket-box .code{
+  font-family:ui-monospace,Menlo,monospace;
+  font-weight:700;
+  font-size:14px;
+  color:var(--primary-2);
+}
+.ticket-box .seat{
+  font-size:24px;
+  font-weight:800;
+  margin:8px 0;
+  letter-spacing:.05em;
+}
+
+/* =========================================================
+   SYSTEM PANEL
+   ========================================================= */
+.sys-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+}
+.sys-grid > div{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:13px;
+  font-family:ui-monospace,Menlo,monospace;
+}
+.sys-grid > div > div:first-child{margin-bottom:4px}
+.ok{color:var(--green);font-weight:600}
+.warn{color:var(--amber);font-weight:600}
+.bad{color:var(--red);font-weight:600}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+#toasts{
+  position:fixed;
+  bottom:20px;right:20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:60;
+  pointer-events:none;
+}
+.toast{
+  padding:12px 16px;
+  border-radius:10px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .25s, transform .25s;
+  max-width:320px;
+  font-size:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  pointer-events:auto;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{border-color:#14532d;color:#86efac}
+.toast.err{border-color:#7f1d1d;color:#fca5a5}
+.toast.info{border-color:#1e3a8a;color:#93c5fd}
+.toast.warn{border-color:#78350f;color:#fcd34d}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:520px){
+  header{padding:12px 14px}
+  h1{font-size:15px}
+  main{padding:16px 10px 60px}
+  .card{padding:14px;border-radius:12px}
+  .seat{width:32px;height:32px;font-size:11px}
+  .rowlabel{width:44px}
+  .holdbar{flex-direction:column;align-items:stretch;text-align:center}
+  .holdbar button{width:100%}
+  .modal-box{padding:18px}
+}

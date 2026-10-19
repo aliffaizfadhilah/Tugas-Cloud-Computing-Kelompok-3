@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Konser Ticketing — Kelompok 3</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="logo">🎵</span>
+      <div>
+        <h1 id="eventTitle">Konser</h1>
+        <div class="muted" id="eventVenue">Memuat event…</div>
+      </div>
+    </div>
+    <div class="session">
+      <span class="pill" id="sessionPill">Tanpa sesi</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- SESSION MANAGER -->
+    <section class="card" id="sessionCard">
+      <div class="row between">
+        <h2>👤 Sesi Pengguna (Multi-Account)</h2>
+        <button id="refreshSysBtn" class="ghost small" hidden></button>
+      </div>
+      <div id="sessionList" class="session-list"></div>
+      <form id="newSessionForm" class="row" style="margin-top:12px">
+        <input id="newSessionLabel" placeholder="Nama sesi (mis. Budi / Ali)" maxlength="40"
+               style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);color:var(--text)">
+        <button type="submit">+ Sesi Baru</button>
+      </form>
+      <p class="muted small" style="margin:8px 0 0">
+        💡 Buat 2 sesi di tab ini untuk menguji <em>double-booking</em>: hold kursi di Sesi A, aktifkan Sesi B, coba hold kursi yang sama → harus <code>409</code>.
+      </p>
+    </section>
+
+    <!-- QUEUE (aktif per sesi) -->
+    <section class="card" id="queueCard">
+      <h2>🚦 Ruang Tunggu Virtual</h2>
+      <p id="queueMsg" class="muted">Pilih sesi, lalu masuk antrean.</p>
+      <div class="progress"><div id="queueBar"></div></div>
+      <div class="row">
+        <button id="joinBtn" disabled>Masuk Antrean</button>
+        <button id="leaveBtn" class="ghost" hidden>Keluar Sesi</button>
+        <span class="muted small" id="queueStat"></span>
+      </div>
+    </section>
+
+    <!-- SEAT MAP (selalu terlihat) -->
+    <section class="card" id="seatCard">
+      <div class="row between">
+        <h2>🪑 Peta Kursi</h2>
+        <div id="spectatorNotice" class="pill warn small" hidden>
+          👁 Mode lihat saja — masuk antrean untuk memilih
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="dot available"></i>Tersedia</span>
+        <span><i class="dot held"></i>Di-hold</span>
+        <span><i class="dot mine"></i>Milik Anda</span>
+        <span><i class="dot sold"></i>Terjual</span>
+      </div>
+      <div class="stage">PANGGUNG</div>
+      <div class="seatmap" id="seatmap"></div>
+      <div class="holdbar" id="holdbar" hidden>
+        <div>
+          <strong id="holdCount">0</strong> kursi dipilih
+          <div class="muted small" id="holdLabels"></div>
+        </div>
+        <div class="hold-timer" id="holdTimer">—</div>
+        <button id="checkoutBtn">Checkout</button>
+      </div>
+      <p id="seatMsg" class="msg"></p>
+    </section>
+
+    <!-- TICKETS -->
+    <section class="card" id="ticketsCard">
+      <div class="row between">
+        <h2>🎫 E-Tiket Sesi Aktif</h2>
+        <button id="refreshTicketsBtn" class="ghost small">Muat ulang</button>
+      </div>
+      <div id="ticketList" class="tickets"><p class="muted">Belum ada tiket.</p></div>
+    </section>
+
+    <!-- SYSTEM -->
+    <section class="card system">
+      <div class="row between">
+        <h2>⚙️ Sistem & Konsistensi</h2>
+        <button id="refreshSysBtn2" class="ghost small">Refresh</button>
+      </div>
+      <div class="sys-grid">
+        <div><div class="muted small">Health</div><div id="sysHealth">—</div></div>
+        <div><div class="muted small">Antrean (menunggu/admitted)</div><div id="sysQueue">—</div></div>
+        <div><div class="muted small">Kursi (tersedia/held/sold)</div><div id="sysSeats">—</div></div>
+        <div><div class="muted small">Konsistensi</div><div id="sysConsistency">—</div></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal" id="checkoutModal" hidden>
+    <div class="modal-box">
+      <h3>Checkout</h3>
+      <div id="checkoutSummary" class="summary"></div>
+      <div class="muted small">Metode Pembayaran</div>
+      <div class="methods" id="methods">
+        <label><input type="radio" name="pm" value="qris" checked> QRIS</label>
+        <label><input type="radio" name="pm" value="ewallet"> E-Wallet</label>
+        <label><input type="radio" name="pm" value="va"> Transfer Bank (VA)</label>
+        <label><input type="radio" name="pm" value="cc"> Kartu Kredit</label>
+        <label class="danger"><input type="radio" name="pm" value="test_fail"> Simulasi Gagal</label>
+      </div>
+      <div id="checkoutMsg" class="msg"></div>
+      <div class="row">
+        <button id="confirmPayBtn">Bayar Sekarang</button>
+        <button id="cancelPayBtn" class="ghost">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKET MODAL -->
+  <div class="modal" id="ticketModal" hidden>
+    <div class="modal-box ticket-box">
+      <button class="close" id="closeTicketBtn">×</button>
+      <div id="ticketDetail"></div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

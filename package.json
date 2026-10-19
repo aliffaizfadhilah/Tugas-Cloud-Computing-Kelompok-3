@@ -1,0 +1,13 @@
+{
+  "name": "konser-ticketing",
+  "version": "1.0.0",
+  "description": "Platform Booking Tiket Konser",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "express": "^4.19.2"
+  }
+}
