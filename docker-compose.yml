@@ -1,6 +1,18 @@
 name: konser        # nama project tetap, jadi volume bernama konser_pgdata, konser_redisdata
 
 services:
+  api1:
+    build: .
+    ports: ["3001:3000"]          # sementara, nanti lewat nginx
+    environment:
+      DATABASE_URL: postgres://ticket:ticketpw@postgres:5432/ticketing
+      REDIS_URL: redis://redis:6379
+      HOLD_SECONDS: 300
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis:    { condition: service_healthy }
+    restart: unless-stopped
+
   postgres:
     image: postgres:16
     environment:
