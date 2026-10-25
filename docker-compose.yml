@@ -8,6 +8,7 @@ services:
       DATABASE_URL: postgres://ticket:ticketpw@postgres:5432/ticketing
       REDIS_URL: redis://redis:6379
       HOLD_SECONDS: 300
+      ADMIT_PER_TICK: ${ADMIT_PER_TICK:-5}
     depends_on:
       postgres: { condition: service_healthy }
       redis:    { condition: service_healthy }

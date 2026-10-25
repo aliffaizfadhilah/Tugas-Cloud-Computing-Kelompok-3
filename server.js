@@ -21,12 +21,16 @@ app.get('/ready', async (_req, res) => {
   res.status(out.db ? 200 : 503).json({ ready: out.db, degraded: !out.redis, ...out });
 });
 
+app.use(require('./src/queue'));
 // ---- rute lain ditambahkan di sub-tahap berikutnya (4b dst.) ----
 
 app.use(errorHandler);
 
 const server = app.listen(PORT, () => console.log(`API :${PORT}`));
+const jobs = require('./src/jobs');
+jobs.start();
 function shutdown(sig) {
+  jobs.stop();
   console.log(`[${sig}] shutting down`);
   server.close(async () => {
     await pool.end().catch(() => {});
