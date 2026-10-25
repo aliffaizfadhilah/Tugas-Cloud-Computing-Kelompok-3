@@ -1,0 +1,35 @@
+== Persiapan (data uji direset)
+  PASS  Budi dan Ali masuk lewat nginx
+== 1. Rebutan kursi
+  PASS  Budi hold kursi 1
+  PASS  Budi hold kursi 2
+  PASS  Ali gagal rebut kursi 1
+== 2. Redis macet (simulasi jaringan putus)
+ Container konser-redis-1 Paused 
+  PASS  Ali tetap gagal rebut kursi 1
+  PASS  Ali hold kursi 3 (booking tetap jalan)
+  PASS  antrean baru tetap diterima
+ Container konser-redis-1 Unpaused 
+== 3. Redis crash (SIGKILL) + data hilang
+  PASS  Ali hold kursi 4 saat Redis mati
+  PASS  /ready tetap 200 (degraded)
+  RTO Redis: 5.6 detik
+  PASS  kursi Budi tetap milik Budi
+== 4. Satu instance API crash
+  PASS  10 request lewat nginx tetap sukses
+  PASS  Ali hold kursi 5 saat api1 mati
+== 5. Postgres crash (SIGKILL) saat Budi sudah punya tagihan
+  PASS  tagihan Budi dibuat (2 kursi)
+  PASS  hold saat DB mati -> 503
+  PASS  /ready saat DB mati -> 503
+  RTO Postgres: 9.9 detik
+  PASS  kursi 1 TIDAK direbut Ali setelah recovery
+  PASS  kursi 2 TIDAK direbut Ali setelah recovery
+  PASS  Budi bayar setelah recovery
+  PASS  kursi 1 kini terjual, tetap 409
+  PASS  Ali bayar kursi miliknya
+== 6. Konsistensi akhir
+  PASS  jumlah kursi sold = jumlah booking paid (5 vs 5)
+  PASS  /api/admin/consistency ok
+
+HASIL: 22 lulus, 0 gagal
