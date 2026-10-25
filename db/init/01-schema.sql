@@ -29,7 +29,8 @@ CREATE TABLE payments (
   id TEXT PRIMARY KEY, user_token TEXT NOT NULL, amount INT NOT NULL, method TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending'
     CHECK (status IN ('pending','paid','failed','void','refunded')),
-  created_at BIGINT NOT NULL DEFAULT now_ms(), confirmed_at BIGINT
+  created_at BIGINT NOT NULL DEFAULT now_ms(), confirmed_at BIGINT,
+  seat_ids INT[] NOT NULL DEFAULT '{}'
 );
 
 CREATE TABLE bookings (

@@ -1,18 +1,35 @@
 name: konser        # nama project tetap, jadi volume bernama konser_pgdata, konser_redisdata
 
+x-api: &api
+  build: .
+  image: konser-api:local
+  environment:
+    DATABASE_URL: postgres://ticket:ticketpw@postgres:5432/ticketing
+    REDIS_URL: redis://redis:6379
+    HOLD_SECONDS: ${HOLD_SECONDS:-300}
+    ADMIT_PER_TICK: ${ADMIT_PER_TICK:-5}
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis:    { condition: service_healthy }
+  restart: unless-stopped
+
 services:
-  api1:
-    build: .
-    ports: ["3001:3000"]          # sementara, nanti lewat nginx
-    environment:
-      DATABASE_URL: postgres://ticket:ticketpw@postgres:5432/ticketing
-      REDIS_URL: redis://redis:6379
-      HOLD_SECONDS: 300
-      ADMIT_PER_TICK: ${ADMIT_PER_TICK:-5}
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["8080:80"]
+    volumes: ["./nginx.conf:/etc/nginx/conf.d/default.conf:ro"]
     depends_on:
-      postgres: { condition: service_healthy }
-      redis:    { condition: service_healthy }
+      api1: { condition: service_healthy }
+      api2: { condition: service_healthy }
     restart: unless-stopped
+
+  api1:
+    <<: *api
+    ports: ["3001:3000"]          # port langsung, hanya untuk debugging
+
+  api2:
+    <<: *api
+    ports: ["3002:3000"]
 
   postgres:
     image: postgres:16
@@ -41,6 +58,25 @@ services:
       interval: 3s
       timeout: 3s
       retries: 10
+    restart: unless-stopped
+
+  pg-backup:                      # dump berkala ke ./backups (di host, selamat dari `down -v`)
+    image: postgres:16
+    user: "1000:1000"             # samakan dengan `id -u` di WSL agar file bukan milik root
+    depends_on:
+      postgres: { condition: service_healthy }
+    environment:
+      PGPASSWORD: ticketpw
+    volumes: ["./backups:/backups"]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        while true; do
+          f=/backups/ticketing_$$(date +%Y%m%d_%H%M%S).dump
+          if pg_dump -h postgres -U ticket -Fc ticketing > $$f.tmp; then mv $$f.tmp $$f; else rm -f $$f.tmp; fi
+          find /backups -name 'ticketing_*.dump' -mmin +120 -delete
+          sleep $${BACKUP_INTERVAL:-300}
+        done
     restart: unless-stopped
 
 volumes:

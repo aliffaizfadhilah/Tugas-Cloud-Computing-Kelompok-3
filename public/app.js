@@ -9,7 +9,10 @@ const api = {
     const headers = { 'Content-Type': 'application/json' };
     if (this.token) headers['x-queue-token'] = this.token;
     if (opts.idempotencyKey) headers['idempotency-key'] = opts.idempotencyKey;
-    const res = await fetch(path, { ...opts, headers });
+    let res;
+    try { res = await fetch(path, { ...opts, headers }); }
+    catch { markDown(true); const e = new Error('Server tidak terjangkau'); e.status = 0; throw e; }
+    markDown(res.status === 503);
     let data = null; try { data = await res.json(); } catch {}
     if (!res.ok) { const e = new Error((data && data.error) || res.statusText); e.status = res.status; e.data = data; throw e; }
     return data;
@@ -530,3 +533,13 @@ async function boot() {
   startSysPolling();
 }
 boot();
+
+// ---------- Indikator koneksi ----------
+function markDown(down) {
+  if (down === !!api.down) return;
+  api.down = down;
+  if (down) { setPill('Menyambung ulang…', 'warn'); return; }
+  if (!api.token) setPill('Tanpa sesi', '');
+  else if (state.admitted) setPill('Sesi aktif', 'ok');
+  else setPill('Menunggu antrean', 'warn');
+}

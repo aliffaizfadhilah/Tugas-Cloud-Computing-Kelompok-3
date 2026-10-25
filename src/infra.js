@@ -1,6 +1,7 @@
 'use strict';
 const { Pool } = require('pg');
 const Redis = require('ioredis');
+require('pg').types.setTypeParser(20, (v) => Number(v));   // BIGINT (ms epoch) -> number
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

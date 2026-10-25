@@ -22,6 +22,10 @@ app.get('/ready', async (_req, res) => {
 });
 
 app.use(require('./src/queue'));
+app.use(require('./src/seats'));
+app.use(require('./src/payments'));
+app.use(require('./src/bookings'));
+app.use(require('./src/admin'));
 // ---- rute lain ditambahkan di sub-tahap berikutnya (4b dst.) ----
 
 app.use(errorHandler);
