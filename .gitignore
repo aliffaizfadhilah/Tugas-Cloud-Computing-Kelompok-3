@@ -13,3 +13,6 @@ Thumbs.db
 .idea/
 backups/*
 !backups/.gitkeep
+
+# metadata unduhan Windows
+*:Zone.Identifier
