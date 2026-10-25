@@ -11,3 +11,5 @@ npm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+backups/*
+!backups/.gitkeep
