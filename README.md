@@ -42,6 +42,18 @@ Menghentikan layanan:
 docker compose down        # data tetap aman di volume
 docker compose down -v     # PERINGATAN: menghapus volume, seluruh data database hilang
 ```
+## Volume dan persistensi data
+
+| Volume | Jenis | Isi | Bertahan setelah |
+|---|---|---|---|
+| `konser_pgdata` | named volume | data PostgreSQL | `docker compose down`, container dibuat ulang, crash |
+| `konser_redisdata` | named volume | file AOF Redis | `docker compose down`, container dibuat ulang |
+| `./backups` | bind mount | dump `pg_dump` berkala | `docker compose down -v` |
+
+- `docker compose down` aman: container dihapus, volume tetap.
+- `docker compose down -v` **menghapus volume** dan seluruh data database. Pulihkan dari `./backups` (lihat bagian Backup dan restore).
+- Skrip `db/init/` hanya dijalankan saat volume database masih kosong. Perubahan skema pada volume yang sudah berisi harus lewat `ALTER TABLE`.
+- Data volume berada di penyimpanan Docker (bukan di folder proyek). Jangan diedit manual.
 
 ### Konfigurasi
 

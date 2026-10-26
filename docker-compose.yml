@@ -60,20 +60,27 @@ services:
       retries: 10
     restart: unless-stopped
 
-  pg-backup:                      # dump berkala ke ./backups (di host, selamat dari `down -v`)
+  pg-backup:
     image: postgres:16
-    user: "1000:1000"             # samakan dengan `id -u` di WSL agar file bukan milik root
+    user: "1000:1000"
     depends_on:
       postgres: { condition: service_healthy }
     environment:
       PGPASSWORD: ticketpw
+      BACKUP_INTERVAL: ${BACKUP_INTERVAL:-300}
     volumes: ["./backups:/backups"]
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
         while true; do
           f=/backups/ticketing_$$(date +%Y%m%d_%H%M%S).dump
-          if pg_dump -h postgres -U ticket -Fc ticketing > $$f.tmp; then mv $$f.tmp $$f; else rm -f $$f.tmp; fi
+          if pg_dump -h postgres -U ticket -Fc ticketing > $$f.tmp; then
+            mv $$f.tmp $$f
+            echo "[backup] OK $$f ($$(du -h $$f | cut -f1))"
+          else
+            rm -f $$f.tmp
+            echo "[backup] GAGAL membuat dump"
+          fi
           find /backups -name 'ticketing_*.dump' -mmin +120 -delete
           sleep $${BACKUP_INTERVAL:-300}
         done
