@@ -1,7 +1,8 @@
 'use strict';
 const { Router } = require('express');
-const { q, ah } = require('./infra');
+const { pool, q, ah } = require('./infra');
 const { tx } = require('./tx');
+const { invalidateSeatMap } = require('./seat-cache');
 
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
 const GRACE_MS = 30_000;     // hold kedaluwarsa baru dianggap isu kalau lewat 30 dtk (sweeper jalan tiap 2 dtk)
@@ -78,7 +79,27 @@ r.post('/api/admin/reconcile', ah(async (_req, res) => {
        WHERE status = 'sold' AND id NOT IN (SELECT seat_id FROM bookings WHERE status = 'paid')`)).rowCount;
     return { status: 200, body: { ok: true, released: expired, paidFixed: paidFix, soldFixed: soldFix } };
   });
+  if (out.status === 200 && out.body.released + out.body.paidFixed + out.body.soldFixed > 0) invalidateSeatMap();
   res.status(out.status).json(out.body);
 }));
 
 module.exports = r;
+
+// ---- Metrik runtime per instance (untuk analisis bottleneck saat stress test) ----
+const { monitorEventLoopDelay } = require('perf_hooks');
+const loopDelay = monitorEventLoopDelay({ resolution: 20 });
+loopDelay.enable();
+
+r.get('/api/admin/runtime', (_req, res) => {
+  const mem = process.memoryUsage();
+  const ms = (ns) => +Math.max(0, ns / 1e6 - 20).toFixed(2);   // kurangi resolusi timer 20 ms (nilai idle = 20)
+  const out = {
+    instance: require('os').hostname(),
+    pool: { max: pool.options.max, total: pool.totalCount, idle: pool.idleCount, waiting: pool.waitingCount },
+    eventLoop: { meanMs: ms(loopDelay.mean), p99Ms: ms(loopDelay.percentile(99)), maxMs: ms(loopDelay.max) },
+    memory: { rssMb: Math.round(mem.rss / 1048576), heapUsedMb: Math.round(mem.heapUsed / 1048576) },
+    uptimeS: Math.round(process.uptime()),
+  };
+  loopDelay.reset();
+  res.json(out);
+});

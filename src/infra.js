@@ -5,7 +5,7 @@ require('pg').types.setTypeParser(20, (v) => Number(v));   // BIGINT (ms epoch) 
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  max: 15,
+  max: +(process.env.PG_POOL_MAX || 15),
   connectionTimeoutMillis: 3000,
   statement_timeout: 5000,
 });

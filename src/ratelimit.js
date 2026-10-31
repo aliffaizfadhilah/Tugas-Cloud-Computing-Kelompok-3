@@ -1,7 +1,11 @@
 'use strict';
 const buckets = new Map();
 
+// RATE_LIMIT=off mematikan pembatas (khusus uji beban, jangan dipakai di produksi)
+const DISABLED = String(process.env.RATE_LIMIT || '').toLowerCase() === 'off';
+
 function rateLimit(name, max, windowMs) {
+  if (DISABLED) return (_req, _res, next) => next();
   return (req, res, next) => {
     const key = name + ':' + (req.get('x-queue-token') || req.ip);
     const t = Date.now();

@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const { Router } = require('express');
 const { redis, q, ah } = require('./infra');
 const { rateLimit } = require('./ratelimit');
+const { invalidateSeatMap } = require('./seat-cache');
 
 const ADMIT_PER_TICK = +(process.env.ADMIT_PER_TICK || 5);
 const ADMIT_INTERVAL_MS = +(process.env.ADMIT_INTERVAL_MS || 2000);
@@ -61,6 +62,7 @@ r.post('/api/queue/leave', ah(async (req, res) => {
   if (token) {
     await q(`UPDATE seats SET status='available', held_by=NULL, hold_until=NULL
              WHERE held_by = $1 AND status = 'held'`, [token]);   // keluar sukarela -> hold dilepas
+    invalidateSeatMap();
     await q('DELETE FROM queue_tokens WHERE token = $1', [token]);
     redis.zrem(QKEY, token).catch(() => {});
   }

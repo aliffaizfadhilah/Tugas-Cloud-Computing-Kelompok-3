@@ -16,3 +16,32 @@ backups/*
 
 # metadata unduhan Windows
 *:Zone.Identifier
+
+# Hasil stress test berukuran besar
+benchmark-results/k6/*.json
+benchmark-results/analysis/service-logs.txt
+
+# File sementara dan cache
+docs/~$*
+loadtest/__pycache__/
+src/*.bak-*
+
+# Hasil stress test berukuran besar
+benchmark-results/k6/*.json
+benchmark-results/analysis/service-logs.txt
+
+# File sementara dan cache
+docs/~$*
+loadtest/__pycache__/
+src/*.bak-*
+
+# Log mentah dan output terminal load test
+loadtest/out/*.log
+loadtest/out/k6-*.txt
+
+# Grafik latency lama yang belum valid
+benchmark-results/analysis/response_time.png
+
+# Backup konfigurasi lokal
+*.before-autoscaling
+nginx.conf.tuned

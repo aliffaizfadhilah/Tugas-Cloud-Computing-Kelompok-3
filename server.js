@@ -7,6 +7,7 @@ const PORT = +(process.env.PORT || 3000);
 const app = express();
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
+app.use((_req, res, next) => { res.set('X-Instance', require('os').hostname()); next(); });
 app.use(express.json({ limit: '64kb' }));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 

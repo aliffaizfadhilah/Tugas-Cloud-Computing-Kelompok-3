@@ -1,0 +1,36 @@
+{
+  "tag": "base",
+  "flow": "queue",
+  "mode": "stage",
+  "vus": 100,
+  "reqs": 13881,
+  "rps": 86.4199139642376,
+  "avg": 10.365211749513726,
+  "p50": 3.61959,
+  "p90": 39.649054,
+  "p95": 64.669609,
+  "p99": 76.97896720000001,
+  "max": 456.902373,
+  "failed_rate": 0,
+  "server_error_rate": 0,
+  "err_500": 0,
+  "err_503": 0,
+  "err_5xx_other": 0,
+  "err_timeout": 0,
+  "hold_ok": 0,
+  "hold_conflict": 0,
+  "iterations": 13881,
+  "endpoints": {
+    "join": {
+      "avg": 9.162928229999999,
+      "p95": 20.547972649999974,
+      "max": 88.929077
+    },
+    "status": {
+      "avg": 10.37393596052537,
+      "p95": 64.738253,
+      "max": 456.902373
+    }
+  },
+  "thresholds_failed": []
+}

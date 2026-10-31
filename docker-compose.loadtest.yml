@@ -1,0 +1,24 @@
+# Override khusus uji beban. Aktifkan:  export COMPOSE_FILE=docker-compose.yml:docker-compose.loadtest.yml
+# Kembali normal:                       unset COMPOSE_FILE
+x-api-load: &api-load
+  cpus: 0.5
+  mem_limit: 256m
+  environment:
+    RATE_LIMIT: "off"                              # tanpa ini hampir semua join kena 429 karena satu IP
+    PG_POOL_MAX: ${PG_POOL_MAX:-15}
+    SEATMAP_CACHE_MS: ${SEATMAP_CACHE_MS:-0}       # 0 = baseline, 500 = setelah optimasi
+    ADMIT_PER_TICK: ${ADMIT_PER_TICK:-100}         # 5 untuk menguji ruang tunggu (FLOW=queue)
+
+services:
+  api1: *api-load
+  api2: *api-load
+  postgres:
+    cpus: 1.0
+    mem_limit: 512m
+    command: postgres -c wal_level=replica -c max_wal_senders=5 -c hot_standby=on -c max_connections=200
+  redis:
+    cpus: 0.25
+    mem_limit: 128m
+  nginx:
+    cpus: 0.5
+    mem_limit: 128m

@@ -2,6 +2,7 @@
 const crypto = require('crypto');
 const { Router } = require('express');
 const { ah } = require('./infra');
+const { invalidateSeatMap } = require('./seat-cache');
 const { tx } = require('./tx');
 const { requireAdmitted } = require('./auth');
 const { rateLimit } = require('./ratelimit');
@@ -43,6 +44,7 @@ r.post('/api/payments', requireAdmitted, rateLimit('pay', 20, 60_000), ah(async 
     }
     return { status: 201, body };
   });
+  if (out.status === 201) invalidateSeatMap();
   res.status(out.status).json(out.body);
 }));
 
@@ -90,6 +92,7 @@ r.post('/api/payments/:id/confirm', requireAdmitted, ah(async (req, res) => {
     await c.query("UPDATE payments SET status = 'paid', confirmed_at = now_ms() WHERE id = $1", [id]);
     return { status: 200, body: { ok: true, bookings } };
   });
+  if (out.status === 200 && !out.body.replay) invalidateSeatMap();
   res.status(out.status).json(out.body);
 }));
 

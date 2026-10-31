@@ -1,6 +1,7 @@
 'use strict';
 const { Router } = require('express');
 const { q, ah } = require('./infra');
+const { invalidateSeatMap } = require('./seat-cache');
 const { tx } = require('./tx');
 const { requireAdmitted } = require('./auth');
 
@@ -40,6 +41,7 @@ r.post('/api/bookings/:code/refund', requireAdmitted, ah(async (req, res) => {
     }
     return { status: 200, body: { ok: true } };
   });
+  if (out.status === 200) invalidateSeatMap();
   res.status(out.status).json(out.body);
 }));
 

@@ -1,0 +1,52 @@
+{
+  "tag": "base",
+  "flow": "booking",
+  "mode": "stage",
+  "vus": 1000,
+  "reqs": 52673,
+  "rps": 323.75787241647123,
+  "avg": 881.9650175986098,
+  "p50": 863.163969,
+  "p90": 1522.9310214000002,
+  "p95": 1675.3394629999998,
+  "p99": 2039.7705139199988,
+  "max": 2399.460174,
+  "failed_rate": 0,
+  "server_error_rate": 0,
+  "err_500": 0,
+  "err_503": 0,
+  "err_5xx_other": 0,
+  "err_timeout": 0,
+  "hold_ok": 4850,
+  "hold_conflict": 11043,
+  "iterations": 46823,
+  "endpoints": {
+    "join": {
+      "avg": 336.1183349289998,
+      "p95": 1269.967838,
+      "max": 1663.817897
+    },
+    "status": {
+      "avg": 696.223368686135,
+      "p95": 1590.6688029,
+      "max": 2363.829749
+    },
+    "seats": {
+      "avg": 916.0956220814124,
+      "p95": 1690.8953052,
+      "max": 2399.460174
+    },
+    "hold": {
+      "avg": 926.7014430661955,
+      "p95": 1701.1912724,
+      "max": 2384.982549
+    }
+  },
+  "thresholds_failed": [
+    "http_req_duration{name:seats}",
+    "http_req_duration{name:hold}",
+    "http_req_duration",
+    "http_req_duration{name:status}",
+    "http_req_duration{name:join}"
+  ]
+}

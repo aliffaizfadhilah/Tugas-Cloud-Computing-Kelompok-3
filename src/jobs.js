@@ -1,5 +1,6 @@
 'use strict';
 const { pool, redis, q } = require('./infra');
+const { invalidateSeatMap } = require('./seat-cache');
 
 const ADMIT_PER_TICK = +(process.env.ADMIT_PER_TICK || 5);
 const ADMIT_INTERVAL_MS = +(process.env.ADMIT_INTERVAL_MS || 2000);
@@ -34,8 +35,9 @@ async function admitTick() {
 }
 
 async function sweepExpired() {
-  await q(`UPDATE seats SET status='available', held_by=NULL, hold_until=NULL
+  const result = await q(`UPDATE seats SET status='available', held_by=NULL, hold_until=NULL
            WHERE status='held' AND hold_until < now_ms()`);
+  if (result.rowCount > 0) invalidateSeatMap();
 }
 
 async function tick() {

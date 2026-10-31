@@ -3,6 +3,7 @@ const { Router } = require('express');
 const { pool, q, ah } = require('./infra');
 const { requireAdmitted } = require('./auth');
 const { rateLimit } = require('./ratelimit');
+const { getSeatMap, setSeatMap, invalidateSeatMap } = require('./seat-cache');
 
 const HOLD_SECONDS = +(process.env.HOLD_SECONDS || 300);
 const MAX_SEATS_PER_USER = +(process.env.MAX_SEATS_PER_USER || 4);
@@ -15,32 +16,6 @@ r.get('/api/events', ah(async (_req, res) => {
   res.json({ events: rows });
 }));
 
-r.get('/api/events/:id/seats', ah(async (req, res) => {
-  const id = intParam(req.params.id);
-  if (id === null) return res.status(400).json({ error: 'ID event tidak valid' });
-  const { rows: [event] } = await q('SELECT * FROM events WHERE id = $1', [id]);
-  if (!event) return res.status(404).json({ error: 'Event tidak ada' });
-
-  const { rows: [{ now }] } = await q('SELECT now_ms() AS now');   // satu jam untuk semua: jam DB
-  const reqToken = req.get('x-queue-token');
-  const { rows } = await q(
-    `SELECT s.id, s.label, s.price, s.status, s.held_by, s.hold_until, qt.label AS holder_label
-     FROM seats s LEFT JOIN queue_tokens qt ON qt.token = s.held_by
-     WHERE s.event_id = $1 ORDER BY s.id`, [id]);
-
-  const seats = rows.map((s) => {
-    const expired = s.status === 'held' && s.hold_until < now;   // kedaluwarsa tapi belum disapu -> tampil tersedia
-    const held = s.status === 'held' && !expired;
-    return {
-      id: s.id, label: s.label, price: s.price,
-      status: expired ? 'available' : s.status,
-      holdUntil: held ? s.hold_until : null,
-      mine: held && s.held_by === reqToken,
-      heldByLabel: held ? (s.holder_label || null) : null,
-    };
-  });
-  res.json({ event, seats, serverTime: now });
-}));
 
 r.post('/api/seats/:id/hold', requireAdmitted, rateLimit('hold', 60, 60_000), ah(async (req, res) => {
   const seatId = intParam(req.params.id);
@@ -66,6 +41,7 @@ r.post('/api/seats/:id/hold', requireAdmitted, rateLimit('hold', 60, 60_000), ah
       return res.status(409).json({ error: 'Kursi sudah dipesan / di-hold orang lain' });
     }
     await c.query('COMMIT');
+    invalidateSeatMap();
     res.json({ ok: true, holdSeconds: HOLD_SECONDS });
   } catch (e) {
     await c.query('ROLLBACK').catch(() => {});
@@ -78,7 +54,86 @@ r.post('/api/seats/:id/release', requireAdmitted, ah(async (req, res) => {
   if (seatId === null) return res.status(400).json({ error: 'ID kursi tidak valid' });
   await q(`UPDATE seats SET status = 'available', held_by = NULL, hold_until = NULL
            WHERE id = $1 AND held_by = $2 AND status = 'held'`, [seatId, req.token]);
+  invalidateSeatMap();
   res.json({ ok: true });
 }));
 
 module.exports = r;
+
+// ---- Peta kursi: micro-cache + coalescing (SEATMAP_CACHE_MS=0 berarti nonaktif) ----
+function loadSeatMap(id) {
+  const hit = getSeatMap(id);
+  if (hit) return hit;
+
+  const promise = (async () => {
+    const { rows } = await q(
+      `WITH clock AS (
+         SELECT now_ms() AS now
+       )
+       SELECT
+         row_to_json(e) AS event,
+         clock.now AS server_now,
+         s.id AS seat_id,
+         s.label AS seat_label,
+         s.price AS seat_price,
+         s.status AS seat_status,
+         s.held_by,
+         s.hold_until,
+         qt.label AS holder_label
+       FROM events e
+       CROSS JOIN clock
+       LEFT JOIN seats s ON s.event_id = e.id
+       LEFT JOIN queue_tokens qt ON qt.token = s.held_by
+       WHERE e.id = $1
+       ORDER BY s.id`,
+      [id]
+    );
+
+    if (rows.length === 0) return null;
+
+    const first = rows[0];
+    const seats = rows
+      .filter((row) => row.seat_id !== null)
+      .map((row) => ({
+        id: row.seat_id,
+        label: row.seat_label,
+        price: row.seat_price,
+        status: row.seat_status,
+        held_by: row.held_by,
+        hold_until: row.hold_until,
+        holder_label: row.holder_label,
+      }));
+
+    return {
+      event: first.event,
+      now: first.server_now,
+      rows: seats,
+      at: Date.now(),
+    };
+  })();
+
+  setSeatMap(id, promise);
+  return promise;
+}
+
+r.get('/api/events/:id/seats', ah(async (req, res) => {
+  const id = intParam(req.params.id);
+  if (id === null) return res.status(400).json({ error: 'ID event tidak valid' });
+  const snap = await loadSeatMap(id);
+  if (!snap) return res.status(404).json({ error: 'Event tidak ada' });
+
+  const { event, now, rows, at } = snap;
+  const reqToken = req.get('x-queue-token');               // "mine" dihitung per permintaan, bukan di-cache
+  const seats = rows.map((s) => {
+    const expired = s.status === 'held' && s.hold_until < now;   // kedaluwarsa tapi belum disapu -> tampil tersedia
+    const held = s.status === 'held' && !expired;
+    return {
+      id: s.id, label: s.label, price: s.price,
+      status: expired ? 'available' : s.status,
+      holdUntil: held ? s.hold_until : null,
+      mine: held && s.held_by === reqToken,
+      heldByLabel: held ? (s.holder_label || null) : null,
+    };
+  });
+  res.json({ event, seats, serverTime: now + (Date.now() - at) });   // serverTime tetap akurat walau dari cache
+}));
