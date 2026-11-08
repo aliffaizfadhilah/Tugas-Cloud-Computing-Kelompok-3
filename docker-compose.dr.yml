@@ -1,0 +1,64 @@
+name: konser-dr
+
+x-api: &api
+  build: .
+  image: konser-api:dr
+  environment:
+    DATABASE_URL: postgres://ticket:${DR_POSTGRES_PASSWORD:?Set DR_POSTGRES_PASSWORD in .env}@postgres:5432/ticketing_drtest
+    REDIS_URL: redis://redis:6379
+    HOLD_SECONDS: ${HOLD_SECONDS:-300}
+    ADMIT_PER_TICK: ${ADMIT_PER_TICK:-5}
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    <<: *api
+
+  postgres:
+    image: postgres:16
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: ticket
+      POSTGRES_PASSWORD: ${DR_POSTGRES_PASSWORD:?Set DR_POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ticketing_drtest
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ticket -d ticketing_drtest"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - dr_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --appendfsync everysec
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - dr_redisdata:/data
+    restart: unless-stopped
+
+volumes:
+  dr_pgdata:
+  dr_redisdata:

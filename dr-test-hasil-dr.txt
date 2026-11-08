@@ -1,0 +1,57 @@
+== Pemeriksaan lingkungan DR ==
+  Database terverifikasi: ticketing_drtest
+  URL pengujian: http://localhost:8081
+
+== Persiapan (reset data pengujian DR) ==
+  PASS  Budi dan Ali masuk lewat nginx
+
+== 1. Rebutan kursi ==
+  PASS  Budi hold kursi 1
+  PASS  Budi hold kursi 2
+  PASS  Ali gagal rebut kursi 1
+
+== 2. Redis macet (simulasi jaringan putus) ==
+ Container konser-dr-redis-1 Paused
+  PASS  Ali tetap gagal rebut kursi 1
+  PASS  Ali hold kursi 3 (booking tetap jalan)
+  PASS  Antrean baru tetap diterima
+ Container konser-dr-redis-1 Unpaused
+
+== 3. Redis crash (SIGKILL) + recovery ==
+  PASS  Ali hold kursi 4 saat Redis mati
+  PASS  /ready tetap 200 saat Redis mati
+  PASS  API menandai Redis degraded
+  Redis pulih setelah 0 detik.
+  RTO Redis: 6.3 detik
+  PASS  Kursi Budi tetap milik Budi
+
+== 4. Satu instance API crash ==
+  PASS  10 request lewat nginx tetap sukses
+  PASS  Ali hold kursi 5 saat API 1 mati
+
+== 5. PostgreSQL crash saat Budi sudah punya tagihan ==
+  PASS  Tagihan Budi dibuat (2 kursi)
+  PASS  Hold saat DB mati -> 503
+  PASS  /ready saat DB mati -> 503
+  RTO PostgreSQL: 12.4 detik
+  PASS  Kursi 1 tidak direbut Ali setelah recovery
+  PASS  Kursi 2 tidak direbut Ali setelah recovery
+  PASS  Budi bayar setelah recovery
+  PASS  Kursi 1 kini terjual, tetap 409
+  PASS  Tagihan Ali dibuat (3 kursi)
+  PASS  Ali bayar kursi miliknya
+
+== 6. Konsistensi akhir ==
+  PASS  Jumlah kursi sold = jumlah booking paid (5 vs 5)
+  PASS  /api/admin/consistency ok
+
+====================================
+HASIL PENGUJIAN DR
+Database : ticketing_drtest
+URL      : http://localhost:8081
+LULUS    : 24
+GAGAL    : 0
+====================================
+
+== Pemulihan kondisi container DR ==
+  Pemeriksaan pemulihan selesai.

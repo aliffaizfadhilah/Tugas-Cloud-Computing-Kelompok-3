@@ -1,0 +1,491 @@
+[22:55:19] replika=2 CPU-tertinggi=61.85%
+[22:55:34] replika=2 CPU-tertinggi=0.64%
+[22:55:48] replika=2 CPU-tertinggi=25.38%
+[22:56:02] replika=2 CPU-tertinggi=142.21%
+[22:56:17] replika=2 CPU-tertinggi=96.84%
+[22:56:31] replika=2 CPU-tertinggi=129.21%
+SCALE OUT: 2 -> 3 replika
+ Container konser-postgres-1 Running
+ Container konser-redis-1 Running
+ Container konser-api-1 Running
+ Container konser-api-2 Running
+ Container konser-api-3 Creating
+ Container konser-api-3 Created
+ Container konser-postgres-1 Waiting
+ Container konser-redis-1 Waiting
+ Container konser-redis-1 Healthy
+ Container konser-postgres-1 Healthy
+ Container konser-api-3 Starting
+ Container konser-api-3 Started
+[22:56:52] replika=3 CPU-tertinggi=124.98%
+[22:57:08] replika=3 CPU-tertinggi=102.01%
+[22:57:26] replika=3 CPU-tertinggi=136.26%
+SCALE OUT: 3 -> 4 replika
+ Container konser-redis-1 Running
+ Container konser-postgres-1 Running
+ Container konser-api-1 Running
+ Container konser-api-2 Running
+ Container konser-api-3 Running
+ Container konser-api-4 Creating
+ Container konser-api-4 Created
+ Container konser-redis-1 Waiting
+ Container konser-postgres-1 Waiting
+ Container konser-postgres-1 Healthy
+ Container konser-redis-1 Healthy
+ Container konser-api-4 Starting
+ Container konser-api-4 Started
+[22:57:49] replika=4 CPU-tertinggi=125.80%
+[22:58:08] replika=4 CPU-tertinggi=113.35%
+[22:58:26] replika=4 CPU-tertinggi=99.92%
+SCALE OUT: 4 -> 5 replika
+ Container konser-postgres-1 Running
+ Container konser-redis-1 Running
+ Container konser-api-1 Running
+ Container konser-api-2 Running
+ Container konser-api-3 Running
+ Container konser-api-4 Running
+ Container konser-api-5 Creating
+ Container konser-api-5 Created
+ Container konser-postgres-1 Waiting
+ Container konser-redis-1 Waiting
+ Container konser-redis-1 Healthy
+ Container konser-postgres-1 Healthy
+ Container konser-api-5 Starting
+ Container konser-api-5 Started
+[22:58:54] replika=5 CPU-tertinggi=81.35%
+[22:59:16] replika=5 CPU-tertinggi=127.79%
+[22:59:38] replika=5 CPU-tertinggi=93.71%
+SCALE OUT: 5 -> 6 replika
+ Container konser-redis-1 Running
+ Container konser-postgres-1 Running
+ Container konser-api-1 Running
+ Container konser-api-2 Running
+ Container konser-api-3 Running
+ Container konser-api-4 Running
+ Container konser-api-5 Running
+ Container konser-api-6 Creating
+ Container konser-api-6 Created
+ Container konser-postgres-1 Waiting
+ Container konser-redis-1 Waiting
+ Container konser-redis-1 Healthy
+ Container konser-postgres-1 Healthy
+ Container konser-api-6 Starting
+ Container konser-api-6 Started
+[23:00:09] replika=6 CPU-tertinggi=85.37%
+[23:00:31] replika=6 CPU-tertinggi=79.88%
+[23:00:56] replika=6 CPU-tertinggi=111.59%
+[23:01:18] replika=6 CPU-tertinggi=55.55%
+[23:01:40] replika=6 CPU-tertinggi=44.90%
+[23:02:03] replika=6 CPU-tertinggi=110.73%
+[23:02:25] replika=6 CPU-tertinggi=68.89%
+[23:02:50] replika=6 CPU-tertinggi=114.29%
+[23:03:13] replika=6 CPU-tertinggi=20.78%
+[23:03:36] replika=6 CPU-tertinggi=20.94%
+[23:03:59] replika=6 CPU-tertinggi=68.00%
+[23:04:23] replika=6 CPU-tertinggi=89.84%
+[23:04:45] replika=6 CPU-tertinggi=60.90%
+[23:05:09] replika=6 CPU-tertinggi=5.31%
+[23:05:31] replika=6 CPU-tertinggi=36.97%
+[23:05:55] replika=6 CPU-tertinggi=32.48%
+[23:06:18] replika=6 CPU-tertinggi=9.85%
+[23:06:40] replika=6 CPU-tertinggi=4.75%
+[23:07:03] replika=6 CPU-tertinggi=51.38%
+[23:07:25] replika=6 CPU-tertinggi=64.04%
+[23:07:48] replika=6 CPU-tertinggi=11.79%
+[23:08:11] replika=6 CPU-tertinggi=27.92%
+[23:08:33] replika=6 CPU-tertinggi=73.35%
+[23:08:55] replika=6 CPU-tertinggi=49.40%
+[23:09:17] replika=6 CPU-tertinggi=51.86%
+[23:09:40] replika=6 CPU-tertinggi=49.28%
+[23:10:03] replika=6 CPU-tertinggi=24.21%
+[23:10:25] replika=6 CPU-tertinggi=57.49%
+[23:10:48] replika=6 CPU-tertinggi=40.21%
+[23:11:11] replika=6 CPU-tertinggi=54.09%
+[23:11:34] replika=6 CPU-tertinggi=46.14%
+[23:11:56] replika=6 CPU-tertinggi=53.99%
+[23:12:19] replika=6 CPU-tertinggi=46.57%
+[23:12:41] replika=6 CPU-tertinggi=63.01%
+[23:13:04] replika=6 CPU-tertinggi=49.14%
+[23:13:26] replika=6 CPU-tertinggi=53.58%
+[23:13:49] replika=6 CPU-tertinggi=30.05%
+[23:14:11] replika=6 CPU-tertinggi=57.40%
+[23:14:34] replika=6 CPU-tertinggi=36.35%
+[23:14:56] replika=6 CPU-tertinggi=42.64%
+[23:15:18] replika=6 CPU-tertinggi=30.58%
+[23:15:40] replika=6 CPU-tertinggi=55.14%
+[23:16:03] replika=6 CPU-tertinggi=52.99%
+[23:16:25] replika=6 CPU-tertinggi=53.21%
+[23:16:47] replika=6 CPU-tertinggi=55.02%
+[23:17:10] replika=6 CPU-tertinggi=29.20%
+[23:17:33] replika=6 CPU-tertinggi=54.91%
+[23:17:55] replika=6 CPU-tertinggi=65.11%
+[23:18:18] replika=6 CPU-tertinggi=18.12%
+[23:18:40] replika=6 CPU-tertinggi=32.66%
+[23:19:03] replika=6 CPU-tertinggi=14.36%
+[23:19:25] replika=6 CPU-tertinggi=13.91%
+[23:19:47] replika=6 CPU-tertinggi=21.46%
+[23:20:10] replika=6 CPU-tertinggi=73.58%
+[23:20:33] replika=6 CPU-tertinggi=49.55%
+[23:20:55] replika=6 CPU-tertinggi=49.07%
+[23:21:18] replika=6 CPU-tertinggi=62.58%
+[23:21:41] replika=6 CPU-tertinggi=52.35%
+[23:22:04] replika=6 CPU-tertinggi=59.39%
+[23:22:25] replika=6 CPU-tertinggi=48.96%
+[23:22:49] replika=6 CPU-tertinggi=67.19%
+[23:23:11] replika=6 CPU-tertinggi=67.41%
+[23:23:34] replika=6 CPU-tertinggi=29.05%
+[23:23:56] replika=6 CPU-tertinggi=53.18%
+[23:24:19] replika=6 CPU-tertinggi=46.18%
+[23:24:42] replika=6 CPU-tertinggi=60.20%
+[23:25:05] replika=6 CPU-tertinggi=58.07%
+[23:25:28] replika=6 CPU-tertinggi=94.29%
+[23:25:51] replika=6 CPU-tertinggi=65.29%
+[23:26:14] replika=6 CPU-tertinggi=13.95%
+[23:26:37] replika=6 CPU-tertinggi=20.54%
+[23:27:00] replika=6 CPU-tertinggi=35.13%
+[23:27:22] replika=6 CPU-tertinggi=38.80%
+[23:27:44] replika=6 CPU-tertinggi=47.67%
+[23:28:07] replika=6 CPU-tertinggi=46.62%
+[23:28:30] replika=6 CPU-tertinggi=57.98%
+[23:28:52] replika=6 CPU-tertinggi=49.15%
+[23:29:15] replika=6 CPU-tertinggi=20.73%
+[23:29:37] replika=6 CPU-tertinggi=33.99%
+[23:30:00] replika=6 CPU-tertinggi=29.00%
+[23:30:22] replika=6 CPU-tertinggi=46.91%
+[23:30:45] replika=6 CPU-tertinggi=44.69%
+[23:31:07] replika=6 CPU-tertinggi=46.38%
+[23:31:31] replika=6 CPU-tertinggi=56.24%
+[23:31:53] replika=6 CPU-tertinggi=22.06%
+[23:32:16] replika=6 CPU-tertinggi=13.07%
+[23:32:38] replika=6 CPU-tertinggi=20.74%
+[23:33:01] replika=6 CPU-tertinggi=33.04%
+[23:33:24] replika=6 CPU-tertinggi=20.67%
+[23:33:46] replika=6 CPU-tertinggi=36.77%
+[23:34:09] replika=6 CPU-tertinggi=10.55%
+[23:34:32] replika=6 CPU-tertinggi=29.53%
+[23:34:55] replika=6 CPU-tertinggi=24.72%
+[23:35:18] replika=6 CPU-tertinggi=40.09%
+[23:35:40] replika=6 CPU-tertinggi=42.53%
+[23:36:02] replika=6 CPU-tertinggi=53.96%
+[23:36:25] replika=6 CPU-tertinggi=101.11%
+[23:36:48] replika=6 CPU-tertinggi=63.16%
+[23:37:11] replika=6 CPU-tertinggi=65.92%
+[23:37:35] replika=6 CPU-tertinggi=88.56%
+[23:37:57] replika=6 CPU-tertinggi=56.96%
+[23:38:20] replika=6 CPU-tertinggi=43.99%
+[23:38:43] replika=6 CPU-tertinggi=63.67%
+[23:39:05] replika=6 CPU-tertinggi=27.57%
+[23:39:28] replika=6 CPU-tertinggi=63.69%
+[23:39:51] replika=6 CPU-tertinggi=91.44%
+[23:40:13] replika=6 CPU-tertinggi=26.26%
+[23:40:36] replika=6 CPU-tertinggi=49.76%
+[23:40:59] replika=6 CPU-tertinggi=63.10%
+[23:41:22] replika=6 CPU-tertinggi=42.47%
+[23:41:44] replika=6 CPU-tertinggi=10.16%
+[23:42:07] replika=6 CPU-tertinggi=44.07%
+[23:42:30] replika=6 CPU-tertinggi=26.14%
+[23:42:52] replika=6 CPU-tertinggi=40.60%
+[23:43:16] replika=6 CPU-tertinggi=120.24%
+[23:43:38] replika=6 CPU-tertinggi=31.67%
+[23:44:01] replika=6 CPU-tertinggi=16.71%
+[23:44:23] replika=6 CPU-tertinggi=56.25%
+[23:44:46] replika=6 CPU-tertinggi=14.68%
+[23:45:12] replika=6 CPU-tertinggi=52.51%
+[23:45:34] replika=6 CPU-tertinggi=49.01%
+[23:45:56] replika=6 CPU-tertinggi=42.09%
+[23:46:18] replika=6 CPU-tertinggi=45.04%
+[23:46:41] replika=6 CPU-tertinggi=56.70%
+[23:47:05] replika=6 CPU-tertinggi=54.05%
+[23:47:27] replika=6 CPU-tertinggi=65.68%
+[23:47:51] replika=6 CPU-tertinggi=23.88%
+[23:48:13] replika=6 CPU-tertinggi=101.59%
+[23:48:37] replika=6 CPU-tertinggi=24.94%
+[23:49:00] replika=6 CPU-tertinggi=27.99%
+[23:49:24] replika=6 CPU-tertinggi=63.45%
+[23:49:47] replika=6 CPU-tertinggi=54.35%
+[23:50:12] replika=6 CPU-tertinggi=43.16%
+[23:50:36] replika=6 CPU-tertinggi=105.97%
+[23:51:04] replika=6 CPU-tertinggi=104.90%
+[23:51:30] replika=6 CPU-tertinggi=112.47%
+[23:51:53] replika=6 CPU-tertinggi=42.32%
+[23:52:16] replika=6 CPU-tertinggi=6.28%
+[23:52:38] replika=6 CPU-tertinggi=67.48%
+[23:52:57] replika=6 CPU-tertinggi=43.58%
+[23:53:11] replika=2 CPU-tertinggi=38.89%
+[23:53:25] replika=2 CPU-tertinggi=0.75%
+[23:53:39] replika=2 CPU-tertinggi=38.43%
+[23:53:53] replika=2 CPU-tertinggi=0.51%
+[23:54:06] replika=2 CPU-tertinggi=36.89%
+[23:54:20] replika=2 CPU-tertinggi=28.67%
+[23:54:34] replika=2 CPU-tertinggi=35.44%
+[23:54:48] replika=2 CPU-tertinggi=0.58%
+[23:55:02] replika=2 CPU-tertinggi=42.80%
+[23:55:16] replika=2 CPU-tertinggi=0.63%
+[23:55:29] replika=2 CPU-tertinggi=51.67%
+[23:55:44] replika=2 CPU-tertinggi=0.65%
+[23:55:57] replika=2 CPU-tertinggi=8.22%
+[23:56:12] replika=2 CPU-tertinggi=0.50%
+[23:56:26] replika=2 CPU-tertinggi=16.30%
+[23:56:39] replika=2 CPU-tertinggi=0.60%
+[23:56:54] replika=2 CPU-tertinggi=22.20%
+[23:57:08] replika=2 CPU-tertinggi=44.53%
+[23:57:22] replika=2 CPU-tertinggi=0.42%
+[23:57:36] replika=2 CPU-tertinggi=36.63%
+[23:57:49] replika=2 CPU-tertinggi=0.68%
+[23:58:03] replika=2 CPU-tertinggi=38.35%
+[23:58:17] replika=2 CPU-tertinggi=0.48%
+[23:58:30] replika=2 CPU-tertinggi=41.42%
+[23:58:44] replika=2 CPU-tertinggi=0.86%
+[23:58:58] replika=2 CPU-tertinggi=38.54%
+[23:59:12] replika=2 CPU-tertinggi=2.89%
+[23:59:26] replika=2 CPU-tertinggi=38.77%
+[23:59:39] replika=2 CPU-tertinggi=0.59%
+[23:59:54] replika=2 CPU-tertinggi=9.46%
+[00:00:08] replika=2 CPU-tertinggi=0.57%
+[00:00:22] replika=2 CPU-tertinggi=49.71%
+[00:00:36] replika=2 CPU-tertinggi=0.64%
+[00:00:50] replika=2 CPU-tertinggi=49.63%
+[00:01:04] replika=2 CPU-tertinggi=42.34%
+[00:01:18] replika=2 CPU-tertinggi=17.61%
+[00:01:32] replika=2 CPU-tertinggi=8.94%
+[00:01:46] replika=2 CPU-tertinggi=0.50%
+[00:01:59] replika=2 CPU-tertinggi=54.71%
+[00:02:13] replika=2 CPU-tertinggi=1.80%
+[00:02:27] replika=2 CPU-tertinggi=30.31%
+[00:02:41] replika=2 CPU-tertinggi=13.76%
+[00:02:54] replika=2 CPU-tertinggi=37.83%
+[00:03:08] replika=2 CPU-tertinggi=70.46%
+[00:03:22] replika=2 CPU-tertinggi=39.21%
+[00:03:36] replika=2 CPU-tertinggi=20.49%
+[00:03:50] replika=2 CPU-tertinggi=0.53%
+[00:04:04] replika=2 CPU-tertinggi=20.20%
+[00:04:18] replika=2 CPU-tertinggi=48.68%
+[00:04:32] replika=2 CPU-tertinggi=0.48%
+[00:04:46] replika=2 CPU-tertinggi=45.29%
+[00:05:00] replika=2 CPU-tertinggi=0.76%
+[00:05:15] replika=2 CPU-tertinggi=14.03%
+[00:05:28] replika=2 CPU-tertinggi=4.93%
+[00:05:42] replika=2 CPU-tertinggi=38.81%
+[00:05:56] replika=2 CPU-tertinggi=0.54%
+[00:06:10] replika=2 CPU-tertinggi=32.49%
+[00:06:23] replika=2 CPU-tertinggi=30.82%
+[00:06:37] replika=2 CPU-tertinggi=24.85%
+[00:06:51] replika=2 CPU-tertinggi=58.83%
+[00:07:05] replika=2 CPU-tertinggi=24.96%
+[00:07:19] replika=2 CPU-tertinggi=86.30%
+[00:07:34] replika=2 CPU-tertinggi=37.27%
+[00:07:47] replika=2 CPU-tertinggi=16.42%
+[00:08:01] replika=2 CPU-tertinggi=46.71%
+[00:08:15] replika=2 CPU-tertinggi=24.92%
+[00:08:28] replika=2 CPU-tertinggi=42.33%
+[00:08:43] replika=2 CPU-tertinggi=0.65%
+[00:08:56] replika=2 CPU-tertinggi=45.71%
+[00:09:11] replika=2 CPU-tertinggi=20.28%
+[00:09:25] replika=2 CPU-tertinggi=47.15%
+[00:09:38] replika=2 CPU-tertinggi=43.89%
+[00:09:52] replika=2 CPU-tertinggi=44.76%
+[00:10:06] replika=2 CPU-tertinggi=57.48%
+[00:10:20] replika=2 CPU-tertinggi=24.33%
+[00:10:35] replika=2 CPU-tertinggi=21.68%
+[00:10:49] replika=2 CPU-tertinggi=0.86%
+[00:11:04] replika=2 CPU-tertinggi=53.80%
+[00:11:17] replika=2 CPU-tertinggi=0.49%
+[00:11:31] replika=2 CPU-tertinggi=67.84%
+[00:11:45] replika=2 CPU-tertinggi=0.47%
+[00:11:58] replika=2 CPU-tertinggi=0.57%
+[00:12:13] replika=2 CPU-tertinggi=0.78%
+[00:12:27] replika=2 CPU-tertinggi=1.00%
+[00:12:40] replika=2 CPU-tertinggi=0.36%
+[00:12:55] replika=2 CPU-tertinggi=18.30%
+[00:13:08] replika=2 CPU-tertinggi=0.37%
+[00:13:23] replika=2 CPU-tertinggi=42.75%
+[00:13:36] replika=2 CPU-tertinggi=0.42%
+[00:13:50] replika=2 CPU-tertinggi=0.49%
+[00:14:04] replika=2 CPU-tertinggi=0.50%
+[00:14:17] replika=2 CPU-tertinggi=6.02%
+[00:14:31] replika=2 CPU-tertinggi=0.55%
+[00:14:45] replika=2 CPU-tertinggi=13.48%
+[00:14:59] replika=2 CPU-tertinggi=0.60%
+[00:15:13] replika=2 CPU-tertinggi=16.18%
+[00:15:26] replika=2 CPU-tertinggi=0.64%
+[00:15:40] replika=2 CPU-tertinggi=39.96%
+[00:15:55] replika=2 CPU-tertinggi=3.69%
+[00:16:09] replika=2 CPU-tertinggi=44.48%
+[00:16:23] replika=2 CPU-tertinggi=0.58%
+[00:16:37] replika=2 CPU-tertinggi=40.66%
+[00:16:50] replika=2 CPU-tertinggi=0.44%
+[00:17:04] replika=2 CPU-tertinggi=47.77%
+[00:17:18] replika=2 CPU-tertinggi=0.36%
+[00:17:33] replika=2 CPU-tertinggi=22.07%
+[00:17:47] replika=2 CPU-tertinggi=0.54%
+[00:18:01] replika=2 CPU-tertinggi=53.07%
+[00:18:15] replika=2 CPU-tertinggi=0.56%
+[00:18:29] replika=2 CPU-tertinggi=43.54%
+[00:18:43] replika=2 CPU-tertinggi=0.44%
+[00:18:57] replika=2 CPU-tertinggi=35.84%
+[00:19:10] replika=2 CPU-tertinggi=0.48%
+[00:19:24] replika=2 CPU-tertinggi=87.36%
+[00:19:38] replika=2 CPU-tertinggi=46.39%
+[00:19:52] replika=2 CPU-tertinggi=8.18%
+[00:20:06] replika=2 CPU-tertinggi=54.31%
+[00:20:19] replika=2 CPU-tertinggi=0.79%
+[00:20:34] replika=2 CPU-tertinggi=46.79%
+[00:20:48] replika=2 CPU-tertinggi=7.03%
+[00:21:01] replika=2 CPU-tertinggi=48.58%
+[00:21:15] replika=2 CPU-tertinggi=0.49%
+[00:21:29] replika=2 CPU-tertinggi=0.66%
+[00:21:43] replika=2 CPU-tertinggi=7.76%
+[00:21:57] replika=2 CPU-tertinggi=18.37%
+[00:22:10] replika=2 CPU-tertinggi=0.46%
+[00:22:24] replika=2 CPU-tertinggi=49.32%
+[00:22:38] replika=2 CPU-tertinggi=46.22%
+[00:22:52] replika=2 CPU-tertinggi=0.91%
+[00:23:05] replika=2 CPU-tertinggi=13.33%
+[00:23:19] replika=2 CPU-tertinggi=0.72%
+[00:23:33] replika=2 CPU-tertinggi=0.53%
+[00:23:47] replika=2 CPU-tertinggi=0.66%
+[00:24:01] replika=2 CPU-tertinggi=17.35%
+[00:24:16] replika=2 CPU-tertinggi=3.57%
+[00:24:29] replika=2 CPU-tertinggi=11.03%
+[00:24:44] replika=2 CPU-tertinggi=0.69%
+[00:24:57] replika=2 CPU-tertinggi=51.96%
+[00:25:11] replika=2 CPU-tertinggi=31.32%
+[00:25:25] replika=2 CPU-tertinggi=10.93%
+[00:25:38] replika=2 CPU-tertinggi=10.21%
+[00:25:53] replika=2 CPU-tertinggi=0.62%
+[00:26:06] replika=2 CPU-tertinggi=0.40%
+[00:26:20] replika=2 CPU-tertinggi=0.38%
+[00:26:35] replika=2 CPU-tertinggi=45.16%
+[00:26:49] replika=2 CPU-tertinggi=94.01%
+[00:27:05] replika=2 CPU-tertinggi=0.52%
+[00:27:18] replika=2 CPU-tertinggi=28.31%
+[00:27:32] replika=2 CPU-tertinggi=1.78%
+[00:27:46] replika=2 CPU-tertinggi=20.03%
+[00:28:00] replika=2 CPU-tertinggi=0.60%
+[00:28:14] replika=2 CPU-tertinggi=87.69%
+[00:28:28] replika=2 CPU-tertinggi=32.80%
+[00:28:42] replika=2 CPU-tertinggi=0.47%
+[00:28:56] replika=2 CPU-tertinggi=0.57%
+[00:29:10] replika=2 CPU-tertinggi=0.68%
+[00:29:24] replika=2 CPU-tertinggi=16.60%
+[00:29:38] replika=2 CPU-tertinggi=0.48%
+[00:29:51] replika=2 CPU-tertinggi=19.71%
+[00:30:06] replika=2 CPU-tertinggi=4.28%
+[00:30:19] replika=2 CPU-tertinggi=31.39%
+[00:30:34] replika=2 CPU-tertinggi=0.46%
+[00:30:47] replika=2 CPU-tertinggi=31.40%
+[00:31:01] replika=2 CPU-tertinggi=48.73%
+[00:31:16] replika=2 CPU-tertinggi=40.96%
+[00:31:29] replika=2 CPU-tertinggi=50.21%
+[00:31:44] replika=2 CPU-tertinggi=27.24%
+[00:31:57] replika=2 CPU-tertinggi=41.92%
+[00:32:11] replika=2 CPU-tertinggi=0.59%
+[00:32:25] replika=2 CPU-tertinggi=2.36%
+[00:32:38] replika=2 CPU-tertinggi=0.37%
+[00:32:52] replika=2 CPU-tertinggi=47.89%
+[00:33:06] replika=2 CPU-tertinggi=8.24%
+[00:33:19] replika=2 CPU-tertinggi=44.01%
+[00:33:34] replika=2 CPU-tertinggi=41.84%
+[00:33:47] replika=2 CPU-tertinggi=0.61%
+[00:34:01] replika=2 CPU-tertinggi=22.37%
+[00:34:15] replika=2 CPU-tertinggi=0.60%
+[00:34:28] replika=2 CPU-tertinggi=0.65%
+[00:34:42] replika=2 CPU-tertinggi=24.42%
+[00:34:56] replika=2 CPU-tertinggi=0.54%
+[00:35:09] replika=2 CPU-tertinggi=10.95%
+[00:35:24] replika=2 CPU-tertinggi=0.43%
+[00:35:38] replika=2 CPU-tertinggi=4.41%
+[00:35:51] replika=2 CPU-tertinggi=0.72%
+[00:36:06] replika=2 CPU-tertinggi=0.56%
+[00:36:19] replika=2 CPU-tertinggi=0.61%
+[00:36:34] replika=2 CPU-tertinggi=23.57%
+[00:36:48] replika=2 CPU-tertinggi=0.69%
+[00:37:01] replika=2 CPU-tertinggi=20.78%
+[00:37:16] replika=2 CPU-tertinggi=6.94%
+[00:37:30] replika=2 CPU-tertinggi=0.37%
+[00:37:44] replika=2 CPU-tertinggi=0.61%
+[00:37:58] replika=2 CPU-tertinggi=0.61%
+[00:38:12] replika=2 CPU-tertinggi=0.44%
+[00:38:26] replika=2 CPU-tertinggi=41.79%
+[00:38:40] replika=2 CPU-tertinggi=29.85%
+[00:38:55] replika=2 CPU-tertinggi=0.60%
+[00:39:08] replika=2 CPU-tertinggi=0.58%
+[00:39:22] replika=2 CPU-tertinggi=50.98%
+[00:39:36] replika=2 CPU-tertinggi=2.48%
+[00:39:50] replika=2 CPU-tertinggi=50.53%
+[00:40:05] replika=2 CPU-tertinggi=0.70%
+[00:40:19] replika=2 CPU-tertinggi=72.24%
+[00:40:32] replika=2 CPU-tertinggi=65.47%
+[00:40:46] replika=2 CPU-tertinggi=22.48%
+[00:40:59] replika=2 CPU-tertinggi=52.24%
+[00:41:14] replika=2 CPU-tertinggi=74.70%
+[00:41:27] replika=2 CPU-tertinggi=47.83%
+[00:41:41] replika=2 CPU-tertinggi=0.68%
+[00:41:55] replika=2 CPU-tertinggi=53.72%
+[00:42:08] replika=2 CPU-tertinggi=0.57%
+[00:42:22] replika=2 CPU-tertinggi=0.41%
+[00:42:36] replika=2 CPU-tertinggi=0.40%
+[00:42:50] replika=2 CPU-tertinggi=0.62%
+[00:43:04] replika=2 CPU-tertinggi=0.53%
+[00:43:18] replika=2 CPU-tertinggi=47.86%
+[00:43:32] replika=2 CPU-tertinggi=0.65%
+[00:43:46] replika=2 CPU-tertinggi=17.03%
+[00:44:00] replika=2 CPU-tertinggi=15.15%
+[00:44:14] replika=2 CPU-tertinggi=16.84%
+[00:44:28] replika=2 CPU-tertinggi=0.34%
+[00:44:42] replika=2 CPU-tertinggi=52.93%
+[00:44:56] replika=2 CPU-tertinggi=0.33%
+[00:45:10] replika=2 CPU-tertinggi=45.50%
+[00:45:24] replika=2 CPU-tertinggi=0.39%
+[00:45:38] replika=2 CPU-tertinggi=37.42%
+[00:45:51] replika=2 CPU-tertinggi=0.58%
+[00:46:05] replika=2 CPU-tertinggi=85.57%
+[00:46:19] replika=2 CPU-tertinggi=21.74%
+[00:46:34] replika=2 CPU-tertinggi=0.68%
+[00:46:48] replika=2 CPU-tertinggi=59.45%
+[00:47:01] replika=2 CPU-tertinggi=8.42%
+[00:47:15] replika=2 CPU-tertinggi=0.63%
+[00:47:29] replika=2 CPU-tertinggi=0.55%
+[00:47:43] replika=2 CPU-tertinggi=1.41%
+[00:47:57] replika=2 CPU-tertinggi=37.86%
+[00:48:11] replika=2 CPU-tertinggi=0.60%
+[00:48:25] replika=2 CPU-tertinggi=11.01%
+[00:48:39] replika=2 CPU-tertinggi=0.49%
+[00:48:52] replika=2 CPU-tertinggi=46.29%
+[00:49:06] replika=2 CPU-tertinggi=32.19%
+[00:49:20] replika=2 CPU-tertinggi=9.78%
+[00:49:34] replika=2 CPU-tertinggi=49.93%
+[00:49:48] replika=2 CPU-tertinggi=0.54%
+[00:50:01] replika=2 CPU-tertinggi=18.12%
+[00:50:17] replika=2 CPU-tertinggi=0.68%
+[00:50:31] replika=2 CPU-tertinggi=56.60%
+[00:50:47] replika=2 CPU-tertinggi=0.62%
+[00:51:01] replika=2 CPU-tertinggi=58.11%
+[00:51:17] replika=2 CPU-tertinggi=1.71%
+[00:51:31] replika=2 CPU-tertinggi=0.53%
+[00:51:45] replika=2 CPU-tertinggi=4.50%
+[00:51:59] replika=2 CPU-tertinggi=0.55%
+[00:52:14] replika=2 CPU-tertinggi=0.81%
+[00:52:27] replika=2 CPU-tertinggi=61.82%
+[00:52:41] replika=2 CPU-tertinggi=2.82%
+[00:52:56] replika=2 CPU-tertinggi=0.55%
+[00:53:09] replika=2 CPU-tertinggi=0.57%
+[00:53:23] replika=2 CPU-tertinggi=79.84%
+[00:53:37] replika=2 CPU-tertinggi=61.67%
+[00:53:50] replika=2 CPU-tertinggi=0.62%
+[00:54:05] replika=2 CPU-tertinggi=66.72%
+[00:54:18] replika=2 CPU-tertinggi=1.06%
+[00:54:32] replika=2 CPU-tertinggi=10.81%
+[00:54:47] replika=2 CPU-tertinggi=0.54%
+[00:55:00] replika=2 CPU-tertinggi=0.42%
+[00:55:15] replika=2 CPU-tertinggi=0.44%
+[00:55:28] replika=2 CPU-tertinggi=10.43%
+[00:55:42] replika=2 CPU-tertinggi=0.40%
+[00:55:57] replika=2 CPU-tertinggi=53.06%
+[00:56:10] replika=2 CPU-tertinggi=0.48%
+[00:56:25] replika=2 CPU-tertinggi=6.38%
+[00:56:38] replika=2 CPU-tertinggi=0.39%
+[00:56:52] replika=2 CPU-tertinggi=39.76%
+[00:57:06] replika=2 CPU-tertinggi=0.43%
+[00:57:20] replika=2 CPU-tertinggi=46.53%
+[00:57:34] replika=2 CPU-tertinggi=100.25%
